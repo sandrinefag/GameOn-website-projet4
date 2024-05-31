@@ -85,7 +85,8 @@
                   type="text"
                   id="last"
                   name="last"
-                /><br>
+                />
+                <span class="inputError">Nom : entre 2 et 31 caractères. Lettres (avec accents) et trait d'union sont acceptés</span>
               </div>
               <div
                 class="formData">
@@ -95,7 +96,8 @@
                   type="email"
                   id="email"
                   name="email"
-                /><br>
+                />
+                <span class="inputError">Email incorrect</span>
               </div>
               <div
                 class="formData">
@@ -105,12 +107,14 @@
                   type="date"
                   id="birthdate"
                   name="birthdate"
-                /><br>
+                />
+                <span class="inputError">Vous devez être majeur pour participer ou la date est incorrect</span>
               </div>
               <div
                 class="formData">
                 <label>À combien de tournois GameOn avez-vous déjà participé ?</label><br>
                 <input type="number" class="text-control" id="quantity" name="quantity" min="0" max="99">
+                <span class="inputError">Veuillez entrer un chiffre compris entre 0 et 99</span>
               </div>
               <p class="text-label">A quel tournoi souhaitez-vous participer cette année ?</p>
               <div

@@ -11,7 +11,6 @@ function editNav() {
 const modalbg = document.querySelector(".bground");
 const modalBtn = document.querySelectorAll(".modal-btn");
 const formData = document.querySelectorAll(".formData");
-console.log(formData[0])
 const inputForm = document.querySelectorAll("input.text-control");
 // console.log(inputForm);
 // launch modal event
@@ -21,7 +20,6 @@ modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 function launchModal() {
   modalbg.style.display = "block";
 }
-console.log("hello world");
 //------------------------------------------------------------------------------
 //fermer le modal
 
@@ -42,7 +40,7 @@ let email = formData[2];
 let birthdate = formData[3];
 let contestParticipation = formData[4];
 
-formData.forEach((formData) => {
+
 firstName.addEventListener("input", (event) => {
   // console.log(event.target.value);
   const userInput = event.target.value;
@@ -53,38 +51,55 @@ firstName.addEventListener("input", (event) => {
   } else {
     setErrorMsg(event.target);
   }
-
-  // checkedUserName(event.target.value);
 })
 
 lastName.addEventListener("input", (event) => {
   // console.log(event.target.value);
   const userInput = event.target.value;
-  checkedUserName(userInput);
-
-  // checkedUserName(event.target.value);
+  const isValid = checkedUserName(userInput);
+  
+  if (isValid) {
+    removeErrorMsg(event.target);
+  } else {
+    setErrorMsg(event.target);
+  }
 })
 
 email.addEventListener("input", (event) => {
   // console.log(event.target.value);
   const userInput = event.target.value;
-  checkedUserMail(userInput);
- 
-  // checkedUserName(event.target.value);
+  const isValid = checkedUserMail(userInput);
+  
+  if (isValid) {
+    removeErrorMsg(event.target);
+  } else {
+    setErrorMsg(event.target);
+  }
 })
 
 birthdate.addEventListener("input", (event) => {
   const userInput = event.target.value;
-  checkedBirthDateUser(userInput);
+  const isValid = checkedBirthDateUser(userInput);
+  
+  if (isValid) {
+    removeErrorMsg(event.target);
+  } else {
+    setErrorMsg(event.target);
+  }
+
 })
 
 contestParticipation.addEventListener("input", (event) => {
   userInput = event.target.value;
-  userNberOfParticipationGame(userInput);
-  console.log(userInput)
+  const isValid = userNberOfParticipationGame(userInput);
+  if (isValid) {
+    removeErrorMsg(event.target);
+  } else {
+    setErrorMsg(event.target);
+  }
 })
 
-})
+
 
 //--------------------------------------------------------------------------------
 //verification chmps prenom ok
@@ -119,14 +134,11 @@ function removeErrorMsg(elm) {
 function checkedUserMail(userMail) {
   let regexMail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,6}$/;
   if (!regexMail.test(userMail)) {
-    console.log("recommencé");
-  } else {
-    console.log("validé");
-    //  mailValue = userMail.value
-    // console.log(mailValue)
-
+    return false;
   }
+  return true;
 }
+
 
 //-------------------------------------------------------------------------------
 //verification chps date de naissance ok
@@ -134,10 +146,8 @@ function checkedBirthDateUser(userBirthDay) {
   console.log(userBirthDay);
   const userDate = new Date(userBirthDay);
   console.log(userDate.getTime());
-  if (isNaN(userDate.getTime())) {
-  
-    console.log("refusé");
-  } else {
+ 
+   if (!isNaN(userDate.getTime())) {
     console.log("ok");
     const currentDate = new Date();
     const userAge = currentDate.getFullYear() - userDate.getFullYear();
@@ -148,21 +158,18 @@ function checkedBirthDateUser(userBirthDay) {
     console.log(userAge);
 
     if ((userAge === 18 && currentDate.getMonth() >= monthOfBirthUser && currentDate.getDate() >= dateNumberOfUser) || (userAge > 18)) {
-      console.log("est majeur");
-    } else {
-      console.log("pas majeur");
-    }
-  
+      return true;
+    } 
   }
+  return false;
 }
 
 function userNberOfParticipationGame(userParticipation){
-  let regexParticipGame = /^\d{1,2}$/;
+  let regexParticipGame = /^\d{0,2}$/;
   if (!regexParticipGame.test(userParticipation)) {
-    console.log("veuillez entrer un chiffre")
-  } else {
-    console.log("c 'est bon")
-  }
+    return false;
+  } 
+  return true;
 }
 
 
