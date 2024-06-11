@@ -13,6 +13,11 @@ const modalBtn = document.querySelectorAll(".modal-btn");
 const sendBtn = document.querySelector(".btn-submit");
 const formData = document.querySelectorAll(".formData");
 const inputForm = document.querySelectorAll("input.text-control");
+const modalBodyMsg = document.querySelector(".modal-body")
+const redBorderInput = document.querySelector(".errorMsg");
+const checkBoxTownError = document.querySelector(".checkBoxTownError");
+const checkBoxConditionError = document.querySelector(".checkBoxConditionError");
+
 // launch modal event
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 
@@ -24,10 +29,10 @@ function launchModal() {
 //fermer le modal
 
 function modalClose() {
+
 	let cross = document.querySelector(".close");
 	cross.addEventListener("click", () => {
 		modalbg.style.display = "none";
-
 	});
 }
 modalClose();
@@ -39,8 +44,6 @@ let birthdate = inputForm[3];
 let contestParticipation = inputForm[4];
 
 
-
-
 firstName.addEventListener("input", (event) => {
 	// console.log(event.target.value);
 	const userInput = event.target.value;
@@ -48,9 +51,8 @@ firstName.addEventListener("input", (event) => {
 
 	if (isValid) {
 		removeErrorMsg(event.target);
-
 	} else {
-		setErrorMsg(event.target);
+		setErrorMsg(event.target);	
 	}
 });
 
@@ -61,6 +63,7 @@ lastName.addEventListener("input", (event) => {
 
 	if (isValid) {
 		removeErrorMsg(event.target);
+
 	} else {
 		setErrorMsg(event.target);
 	}
@@ -101,16 +104,28 @@ contestParticipation.addEventListener("input", (event) => {
 
 sendBtn.addEventListener("click", (event) => {
 	event.preventDefault();
-	// let validationModal = document.querySelector("form");
-
 	const isOk = isFormvalidate();
+	const form = document.querySelector("form");
 	if (isOk) {
-		
-		console.log("validation réussie")
-	} else {
-		console.log("echec")
+		document.querySelector(".msgValidation").style.display = "block";
+		let validationContent = document.querySelector(".content");
+		validationContent.classList.add("validation-content");
+		modalBodyMsg.classList.add("modalBody-close")
+		form.classList.add("formReserve");
+		sendBtn.value = "Fermer";
+		sendBtn.type = "button";
+		btnClose();
 	}
 });
+
+//------------------------------------------------------------------------------------
+function btnClose() {
+	if (sendBtn.value === "Fermer") {
+		sendBtn.addEventListener("click", () => {
+			modalbg.style.display = "none";
+		})
+	}
+}
 
 //--------------------------------------------------------------------------------
 //verification chmps prenom ok
@@ -123,9 +138,11 @@ function checkedUserName(nameUser) {
 
 function setErrorMsg(elm) {
 	elm.nextElementSibling.classList.add("active");
+	elm.classList.add("error-border")
 }
 function removeErrorMsg(elm) {
 	elm.nextElementSibling.classList.remove("active");
+	elm.classList.remove("error-border")	
 }
 
 //----------------------------------------------------------
@@ -157,14 +174,19 @@ function checkedBirthDateUser(userBirthDay) {
 	return false;
 }
 
-
-
 function userNberOfParticipationGame(userParticipation) {
 	let regexParticipGame = /^\d{0,2}$/;
 	if (!regexParticipGame.test(userParticipation)) {
 		return false;
 	}
 	return true;
+}
+
+function setErrorMsgBox(checkBox) {
+	checkBox.classList.add("active");
+}
+function removeErrorMsgBox(checkBox) {
+	checkBox.classList.remove("active");	
 }
 
 //-------------------------------------------------------------
@@ -184,20 +206,26 @@ function isFormvalidate() {
 		if (btnTest[i].checked) {
 			townNameChooseByUser = btnTest[i].value;
 			isTownSelected = true;
+			removeErrorMsgBox(checkBoxTownError);
 			break;	
+		} else {
+			setErrorMsgBox(checkBoxTownError);
 		}
 	}
 
 	for (let i = 0; i < checkedConditionFacul.length; i++){
 		if (checkedConditionFacul[0].checked && (checkedConditionFacul[1].checked || !checkedConditionFacul[1].checked)) {
 			conditionValid = true;
-			break;
+			removeErrorMsgBox(checkBoxConditionError);
+			break
+		} else {
+			setErrorMsgBox(checkBoxConditionError);
 		}
 	}
 	return isValidFirstName && isValidEmail && isValidBirth && isValidLastName && isValidParticipation && isTownSelected && conditionValid;
 
-	
 }
+
 
 
 

@@ -111,8 +111,6 @@ main {
   margin: 1px 20px 15px;
   border-radius: 2rem;
   text-align: justify;
-
-
 }
 
 .modal-btn {
@@ -139,6 +137,9 @@ main {
 
 /* Modal form */
 
+.formReserve :not(.btn-submit){
+  display: none;
+}
 .button {
   background: #fe142f;
   margin-top: 0.5em;
@@ -183,9 +184,26 @@ main {
   padding-top: 10px;
 }
 
+.validation-content{
+  height: 93%;
+}
+.msgValidation{
+  display: none;
+  font-size: 36px;
+  text-align: center;
+}
 .modal-body {
   padding: 15px 8%;
   margin: 15px auto;
+}
+
+.modalBody-close{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  gap: 80px;
 }
 
 label {
@@ -208,7 +226,7 @@ input {
   font-size: 20px;
   height: 48px;
 }
-.formData[data-error]::after {
+/* .formData[data-error]::after {
   content: attr(data-error);
   font-size: 0.4em;
   color: #e54858;
@@ -225,14 +243,27 @@ input {
 }
 .formData[data-error-visible="true"] .text-control {
   border: 2px solid #e54858;
-}
+} */
 
 .inputError{
   display: none;
+  font-size: 12px;
+  color: red;
 }
 
 .inputError.active{
   display: block;
+}
+
+.checkBoxTownError{
+  display: none;
+  font-size: 12px;
+  color: red;
+}
+
+.checkBoxTownError.active{
+  display: block;
+  ;
 }
 /* 
 input[data-error]::after {
@@ -240,7 +271,7 @@ input[data-error]::after {
     font-size: 0.4em;
     color: red;
 } */
-.errorMsg{
+.error-border{
   border: solid 2px red;
 }
 
@@ -308,6 +339,17 @@ input[data-error]::after {
   left: 21%;
   top: 19%;
 }
+
+.checkBoxConditionError{
+  display: none;
+  font-size: 12px;
+  color: red;
+}
+
+.checkBoxConditionError.active{
+  display: block;  
+}
+
 .close {
   position: absolute;
   right: 15px;
@@ -333,7 +375,7 @@ input[data-error]::after {
 .close:after {
   transform: rotate(-45deg);
 }
-.btn-submit,
+.btn-submit, .btn-close,
 .btn-signup {
   background: #fe142f;
   display: block;
@@ -522,6 +564,12 @@ footer {
     display: block;
     margin: 32px auto 10px;
     padding: 12px 35px;
+  }
+
+  .validation-content{
+    margin: 0;
+    height: 100%;
+    border-radius: initial;
   }
   .copyrights {
     margin-top: 50px;
