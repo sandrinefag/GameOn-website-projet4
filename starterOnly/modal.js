@@ -26,26 +26,15 @@ function launchModal() {
 	modalbg.style.display = "block";
 }
 //------------------------------------------------------------------------------
-//fermer le modal
-
-function modalClose() {
-
-	let cross = document.querySelector(".close");
-	cross.addEventListener("click", () => {
-		modalbg.style.display = "none";
-	});
-}
-modalClose();
-
+//each input of the inputForm array
 let firstName = inputForm[0];
 let lastName = inputForm[1];
 let email = inputForm[2];
 let birthdate = inputForm[3];
 let contestParticipation = inputForm[4];
 
-
+//eventListeners check if the user's input is valid or not
 firstName.addEventListener("input", (event) => {
-	// console.log(event.target.value);
 	const userInput = event.target.value;
 	const isValid = checkedUserName(userInput);
 
@@ -54,10 +43,10 @@ firstName.addEventListener("input", (event) => {
 	} else {
 		setErrorMsg(event.target);	
 	}
+	
 });
 
 lastName.addEventListener("input", (event) => {
-	// console.log(event.target.value);
 	const userInput = event.target.value;
 	const isValid = checkedUserName(userInput);
 
@@ -70,7 +59,6 @@ lastName.addEventListener("input", (event) => {
 });
 
 email.addEventListener("input", (event) => {
-	// console.log(event.target.value);
 	const userInput = event.target.value;
 	const isValid = checkedUserMail(userInput);
 
@@ -94,7 +82,7 @@ birthdate.addEventListener("input", (event) => {
 
 contestParticipation.addEventListener("input", (event) => {
 	userInput = event.target.value;
-	const isValid = userNberOfParticipationGame(userInput);
+	const isValid = checkUserParticipation(userInput);
 	if (isValid) {
 		removeErrorMsg(event.target);
 	} else {
@@ -102,11 +90,13 @@ contestParticipation.addEventListener("input", (event) => {
 	}
 });
 
+//button submit check before the final validation if all inputs and checkbox are true
 sendBtn.addEventListener("click", (event) => {
 	event.preventDefault();
 	const isOk = isFormvalidate();
 	const form = document.querySelector("form");
 	if (isOk) {
+		//message of registration is successfull
 		document.querySelector(".msgValidation").style.display = "block";
 		let validationContent = document.querySelector(".content");
 		validationContent.classList.add("validation-content");
@@ -118,7 +108,9 @@ sendBtn.addEventListener("click", (event) => {
 	}
 });
 
+
 //------------------------------------------------------------------------------------
+//close the modal with the button "close"
 function btnClose() {
 	if (sendBtn.value === "Fermer") {
 		sendBtn.addEventListener("click", () => {
@@ -127,8 +119,19 @@ function btnClose() {
 	}
 }
 
+//close the modal with the cross
+function modalClose() {
+	let cross = document.querySelector(".close");
+	cross.addEventListener("click", () => {
+		modalbg.style.display = "none";
+	});
+}
+modalClose();
+
 //--------------------------------------------------------------------------------
-//verification chmps prenom ok
+//Each function checks each entered is valid or not
+
+//----------------------USER'S NAMES-------------------------------
 function checkedUserName(nameUser) {
 	let regexNames = new RegExp(
 		"^[a-zA-ZÀ-ÖØ-öøç]{2,15}[-]{0,1}[a-zA-ZÀ-ÖØ-öøç]{0,15}$"
@@ -136,26 +139,17 @@ function checkedUserName(nameUser) {
 	return regexNames.test(nameUser)
 }
 
-function setErrorMsg(elm) {
-	elm.nextElementSibling.classList.add("active");
-	elm.classList.add("error-border")
-}
-function removeErrorMsg(elm) {
-	elm.nextElementSibling.classList.remove("active");
-	elm.classList.remove("error-border")	
-}
+//-------------------EMAIL-------------------------------
 
-//----------------------------------------------------------
-//vérification chps email ok
 function checkedUserMail(userMail) {
 	let regexMail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,6}$/;
 	return regexMail.test(userMail);
 }
 
-//-------------------------------------------------------------------------------
-//verification chps date de naissance ok
+//----------------------BirthDate-------------------------------
 function checkedBirthDateUser(userBirthDay) {
 	const userDate = new Date(userBirthDay);
+	console.log (userDate.getTime())
 	if (!isNaN(userDate.getTime())) {
 		const currentDate = new Date();
 		const userAge = currentDate.getFullYear() - userDate.getFullYear();
@@ -174,12 +168,23 @@ function checkedBirthDateUser(userBirthDay) {
 	return false;
 }
 
-function userNberOfParticipationGame(userParticipation) {
-	let regexParticipGame = /^\d{0,2}$/;
+//-------------Nber of Participation-------------------------
+function checkUserParticipation(userParticipation) {
+	let regexParticipGame = /^\d{1,2}$/;
 	if (!regexParticipGame.test(userParticipation)) {
 		return false;
 	}
 	return true;
+}
+
+//---------------- functions of Error message----------------------------------
+function setErrorMsg(elm) {
+	elm.nextElementSibling.classList.add("active");
+	elm.classList.add("error-border")
+}
+function removeErrorMsg(elm) {
+	elm.nextElementSibling.classList.remove("active");
+	elm.classList.remove("error-border")	
 }
 
 function setErrorMsgBox(checkBox) {
@@ -189,18 +194,35 @@ function removeErrorMsgBox(checkBox) {
 	checkBox.classList.remove("active");	
 }
 
-//-------------------------------------------------------------
+//--------------------Validation before submition-----------------
 
 function isFormvalidate() {
 	const isValidFirstName = checkedUserName(firstName.value);
 	const isValidLastName = checkedUserName(lastName.value);
 	const isValidEmail = checkedUserMail(email.value);
 	const isValidBirth = checkedBirthDateUser(birthdate.value);
-	const isValidParticipation = userNberOfParticipationGame(contestParticipation.value);
+	const isValidParticipation = checkUserParticipation(contestParticipation.value);
 	const btnTest = document.querySelectorAll('.checkbox-input[type="radio"]');
 	const checkedConditionFacul = document.querySelectorAll('.checkbox-input[type=checkbox]');
 	isTownSelected = false;
 	conditionValid = false
+
+	if (!checkedUserName(firstName.value)) {
+		setErrorMsg(firstName)
+	} 
+	if (!checkedUserName(lastName.value)) {
+		setErrorMsg(lastName)
+	}
+	if (!checkedUserMail(email.value)) {
+		setErrorMsg(email)
+	} 
+	
+	if (!checkedBirthDateUser(birthdate.value)) {
+		setErrorMsg(birthdate)
+	}
+	if (!checkUserParticipation(contestParticipation.value)) {
+		setErrorMsg(contestParticipation)
+	}
 	
 	for (let i = 0; i < btnTest.length; i++){
 		if (btnTest[i].checked) {
@@ -223,7 +245,7 @@ function isFormvalidate() {
 		}
 	}
 	return isValidFirstName && isValidEmail && isValidBirth && isValidLastName && isValidParticipation && isTownSelected && conditionValid;
-
+	
 }
 
 
