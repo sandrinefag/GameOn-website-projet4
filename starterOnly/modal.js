@@ -104,6 +104,7 @@ sendBtn.addEventListener("click", (event) => {
 		form.classList.add("formReserve");
 		sendBtn.value = "Fermer";
 		sendBtn.type = "button";
+		sendBtn.classList.add("btn-close");
 		btnClose();
 	}
 });
